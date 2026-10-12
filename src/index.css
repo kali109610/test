@@ -1,11 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f7f6f3;
-  --color-ink: #1c1c1a;
-  --color-muted: #6b6a65;
-  --color-line: #e3e1db;
-  --color-accent: #2f5bea;
+  --color-paper: #f5f4ef;
+  --color-ink: #1d1c19;
+  --color-muted: #6b6a63;
+  --color-line: #e2e0d8;
+  --color-accent: #3355e0;
+  --color-ok: #1f8a5b;
+  --color-bad: #d23f31;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -19,7 +24,7 @@ body,
 body {
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -31,11 +36,94 @@ body {
     border-color 150ms ease,
     box-shadow 150ms ease;
 }
-.pressable:active {
+.pressable:active:not(:disabled) {
   transform: scale(0.97);
 }
 @media (hover: hover) and (pointer: fine) {
-  .pressable:hover {
+  .pressable:hover:not(:disabled) {
     box-shadow: 0 2px 10px rgb(0 0 0 / 0.07);
+  }
+}
+
+.btn {
+  border: 1px solid var(--color-line);
+  background: white;
+  border-radius: 0.6rem;
+  padding: 0.35rem 0.8rem;
+  font-size: 13px;
+  font-weight: 600;
+}
+.btn:disabled {
+  opacity: 0.4;
+}
+.btn-primary {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: white;
+}
+
+/* Token chips: cycling pastel hues so neighbouring tokens are easy to tell apart. */
+.tok-h0 { background: #dfe7ff; }
+.tok-h1 { background: #ffe3cc; }
+.tok-h2 { background: #d7f2e3; }
+.tok-h3 { background: #f6dcf0; }
+.tok-h4 { background: #fff1b8; }
+.tok-h5 { background: #dcefff; }
+.tok-unk {
+  background: #fde1de;
+  color: var(--color-bad);
+  outline: 1px solid color-mix(in srgb, var(--color-bad) 40%, transparent);
+}
+.tok-frag {
+  background: repeating-linear-gradient(-45deg, #ece9ff 0 5px, #dcd6ff 5px 10px);
+}
+
+/* Grabbable words lift on hover. */
+.word-chip {
+  cursor: grab;
+  transition: transform 150ms var(--ease-out-strong), box-shadow 150ms ease, border-color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .word-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+    border-color: var(--color-accent);
+  }
+}
+
+.lane {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+/* A dropped word splits apart: pieces start bunched together and slide out. */
+.piece {
+  transition: transform 320ms var(--ease-out-strong), opacity 200ms ease;
+  @starting-style {
+    transform: translateX(calc(var(--i) * -10px)) scale(0.96);
+    opacity: 0.4;
+  }
+}
+
+.explain-in {
+  transition: opacity 220ms ease, transform 220ms var(--ease-out-strong);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.dial-thumb {
+  transition: left 140ms var(--ease-out-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece,
+  .explain-in,
+  .dial-thumb,
+  .word-chip {
+    transition: opacity 150ms ease;
+  }
+  .word-chip:hover {
+    transform: none;
   }
 }

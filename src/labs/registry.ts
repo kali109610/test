@@ -23,8 +23,8 @@ export const LABS: LabMeta[] = [
     blurb: 'Watch text get chopped into the pieces a model actually reads.',
     prerequisites: [],
     renderMode: '2d',
-    status: 'not-built',
-    missionCount: 0,
+    status: 'ready',
+    missionCount: 3,
   },
   {
     id: 'neural-net',

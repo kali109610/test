@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { Link, useParams } from 'react-router';
+import { LAB_COMPONENTS } from '../labs/components';
 import { getLab } from '../labs/registry';
 
 /**
@@ -8,6 +10,15 @@ import { getLab } from '../labs/registry';
 export function LabPage() {
   const { id = '' } = useParams();
   const lab = getLab(id);
+  const Lab = LAB_COMPONENTS[id];
+
+  if (lab?.status === 'ready' && Lab) {
+    return (
+      <Suspense fallback={<p className="p-6 text-sm text-muted">Loading the {lab.title.toLowerCase()} lab…</p>}>
+        <Lab />
+      </Suspense>
+    );
+  }
 
   return (
     <main className="flex min-h-full items-center justify-center p-6">
