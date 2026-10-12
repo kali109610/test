@@ -49,7 +49,7 @@ export function Hub() {
   const narrow = useMediaQuery('(max-width: 767px)');
   // On phones the prerequisite flow runs top→bottom instead of left→right.
   const positions = useMemo(
-    () => layoutLabs(labs).map((p) => (narrow ? { ...p, x: -p.y, y: -p.x } : p)),
+    () => layoutLabs(labs, 3.4, 3.9).map((p) => (narrow ? { ...p, x: -p.y, y: -p.x } : p)),
     [labs, narrow],
   );
   const done = useMemo(
@@ -87,10 +87,13 @@ export function Hub() {
 
   return (
     <div className="flex h-full flex-col md:flex-row">
-      <section className="relative flex flex-1 flex-col">
-        <header className="pointer-events-none absolute inset-x-0 top-0 z-10 p-5">
-          <h1 className="text-lg font-semibold">AI Learning Lab</h1>
-          <p className="text-sm text-muted">
+      <section className="relative flex flex-1 flex-col bg-[#e6e1d5] md:bg-transparent">
+        <header className="pointer-events-none inset-x-0 top-0 z-10 p-5 md:absolute md:p-7">
+          <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">AI Learning Lab</h1>
+          <p className="mt-1 max-w-md text-[15px] text-muted text-balance">
+            Six small machines that show how modern AI works. Pick one up, poke it, break it.
+          </p>
+          <p className="mt-2 text-[12px] font-medium tracking-wide text-muted uppercase tabular-nums">
             {built} of {labs.length} labs built · {totalDone} {totalDone === 1 ? 'mission' : 'missions'} done
           </p>
         </header>
@@ -98,6 +101,7 @@ export function Hub() {
         <SceneBoundary>
           <Suspense fallback={null}>
             <HubScene
+              reserveTop={narrow ? 0 : 150}
             labs={labs}
             positions={positions}
             done={done}
