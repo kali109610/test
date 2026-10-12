@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "build:preview": "VITE_ROUTER=memory vite build --base ./ --outDir dist-preview",
+    "build:preview": "VITE_ROUTER=memory vite build --base ./ --outDir dist-preview && node scripts/escape-fffd.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

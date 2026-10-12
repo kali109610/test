@@ -40,7 +40,7 @@ export function wordTokenize(text: string): Token[] {
   });
 }
 
-const BROKEN = /�/;
+const BROKEN = /\uFFFD/;
 
 /**
  * gpt-tokenizer decodes through one shared streaming TextDecoder, so decoding a partial
